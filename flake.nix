@@ -26,7 +26,7 @@
                 };
               in
               {
-                inherit (all) nix-flake-check-changed;
+                inherit (all) nix-flake-check-changed npm-list;
               };
             treefmt = import ./nix/treefmt.nix;
           };
