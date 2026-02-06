@@ -1,13 +1,13 @@
 {
-  writeShellApplication,
   findutils,
-  gnused,
+  nix-grep-to-build,
+  writeShellApplication,
 }:
 writeShellApplication {
   name = "nix-flake-check-changed";
   runtimeInputs = [
     findutils
-    gnused
+    nix-grep-to-build
   ];
   text = builtins.readFile ./nix-flake-check-changed.sh;
 }
