@@ -13,8 +13,10 @@
     { self, flake-parts, ... }@inputs:
     let
       checkBuildAll = import ./nix/check-build-all.nix;
+      dynamodb = import ./nix/dynamodb.module.nix;
       allSystems = {
         flake.flakeModules = { inherit checkBuildAll; };
+        flake.nixosModules = { inherit dynamodb; };
         perSystem =
           { pkgs, lib, ... }:
           {
