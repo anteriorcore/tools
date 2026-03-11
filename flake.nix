@@ -14,9 +14,10 @@
     let
       checkBuildAll = import ./nix/check-build-all.nix;
       dynamodb = import ./nix/dynamodb.module.nix;
+      elasticmq = import ./nix/elasticmq.module.nix;
       allSystems = {
         flake.flakeModules = { inherit checkBuildAll; };
-        flake.nixosModules = { inherit dynamodb; };
+        flake.nixosModules = { inherit dynamodb elasticmq; };
         perSystem =
           { pkgs, lib, ... }:
           {
