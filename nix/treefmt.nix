@@ -6,5 +6,4 @@
     strict = true;
   };
   programs.keep-sorted.enable = true;
-
 }
