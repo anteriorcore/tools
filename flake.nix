@@ -1,12 +1,14 @@
 {
   inputs = {
+    # keep-sorted start block=true
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     systems.url = "systems";
-    flake-parts.url = "github:hercules-ci/flake-parts";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # keep-sorted end
   };
 
   outputs =
@@ -29,7 +31,14 @@
                 };
               in
               {
-                inherit (all) nix-flake-check-changed nix-grep-to-build npm-list;
+                inherit (all)
+                  # keep-sorted start
+                  nix-flake-check-changed
+                  nix-grep-to-build
+                  npm-list
+                  wait-for-port
+                  # keep-sorted end
+                  ;
               };
             treefmt = import ./nix/treefmt.nix;
           };
