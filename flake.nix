@@ -33,6 +33,7 @@
               {
                 inherit (all)
                   # keep-sorted start
+                  conventional-commit
                   nix-flake-check-changed
                   nix-grep-to-build
                   npm-list
