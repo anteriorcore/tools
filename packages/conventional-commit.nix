@@ -16,7 +16,7 @@ writeShellApplication {
     LOCALE_ARCHIVE = "${lib.getLib glibcLocales}/lib/locale/locale-archive";
   };
   text = ''
-    exec grep -P '^(build|chore|ci|docs|feat|fix|perf|p?refactor|revert|style|test)(\([\w-]+\))?!?: '
+    exec grep -P '^(build|chore|ci|docs|feat|fix|perf|p?refactor|revert|style|test)(\([\w/-]+\))?!?: '
   '';
   derivationArgs.postCheck = ''
     (
@@ -42,6 +42,7 @@ writeShellApplication {
       echo 'feat(foo-bar): baz' | $target
       echo 'feat(foo_bar): bar' | $target
       echo 'feat(FooBar): bar' | $target
+      echo 'feat(foo/bar): bar' | $target
 
       ! echo 'foobar' | $target
       ! echo 'lala: blabla' | $target
