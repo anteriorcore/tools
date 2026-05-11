@@ -5,6 +5,10 @@ writeShellApplication {
   # broken.
   runtimeInputs = [ netcat ];
   text = ''
-    until nc -z localhost "$1"; do sleep 1; done
+    if [[ $# -eq 0 ]] ; then
+        nc
+        exit 1
+    fi
+    until nc -z localhost "$@"; do sleep 1; done
   '';
 }
