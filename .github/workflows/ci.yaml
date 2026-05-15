@@ -1,19 +1,15 @@
 name: CI
-
 on:
   pull_request:
   merge_group:
-
 permissions:
   contents: read
-
 jobs:
   nocommit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: nobssoftware/nocommit@5c3cf9519fe40b80b0954d254085b67b532a5dc3
-
   nix-flake-check:
     strategy:
       fail-fast: false
@@ -31,7 +27,6 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f
       - run: nix run .#nix-flake-check-changed
-
   nix-flake-health:
     runs-on: ubuntu-latest
     steps:
