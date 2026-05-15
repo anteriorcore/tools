@@ -1,5 +1,4 @@
 name: Git Health
-
 on:
   pull_request:
     types:
@@ -7,7 +6,6 @@ on:
       - synchronize
       - reopened
   merge_group:
-
 jobs:
   conventional-commit:
     name: PR title
@@ -19,11 +17,9 @@ jobs:
           path: "~/.cache/nix"
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: cachix/install-nix-action@ab739621df7a23f52766f9ccc97f38da6b7af14f
-      - run: |
-          <<<"$TITLE" nix run .#conventional-commit 
+      - run: "<<<\"$TITLE\" nix run .#conventional-commit \n"
         env:
           TITLE: "${{ github.event.pull_request.title || github.event.merge_group.head_commit.message }}"
-
   merging-into-master:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
