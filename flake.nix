@@ -2,7 +2,7 @@
   inputs = {
     # keep-sorted start block=true
     flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     systems.url = "systems";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
