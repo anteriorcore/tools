@@ -16,7 +16,11 @@ writeShellApplication {
     LOCALE_ARCHIVE = "${lib.getLib glibcLocales}/lib/locale/locale-archive";
   };
   text = ''
-    exec grep -P '^(build|chore|ci|docs|feat|fix|perf|p?refactor|revert|style|test)(\([\w/-]+\))?!?: '
+    reg='^(build|chore|ci|docs|feat|fix|perf|p?refactor|revert|style|test)(\([\w/-]+\))?!?: '
+    if ! grep -P "$reg"; then
+      printf "Message must match conventional commit pattern:\n\n%s\n" "$reg"
+      exit 1
+    fi
   '';
   derivationArgs.postCheck = ''
     (
