@@ -7,6 +7,12 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    package-lock2nix = {
+      url = "github:anteriorcore/package-lock2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
     systems.url = "systems";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -32,8 +38,11 @@
           {
             packages =
               let
+                package-lock2nix = pkgs.callPackage inputs.package-lock2nix.lib.package-lock2nix {
+                  inherit nodejs;
+                };
                 scope = lib.makeScope pkgs.newScope (self: {
-                  inherit inputs;
+                  inherit inputs package-lock2nix;
                 });
                 allPackages = lib.packagesFromDirectoryRecursive {
                   inherit (scope) callPackage newScope;
@@ -45,6 +54,7 @@
                   # keep-sorted start
                   blockinfile
                   conventional-commit
+                  docsync
                   nix-flake-check-changed
                   nix-grep-to-build
                   npm-list
