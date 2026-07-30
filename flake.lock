@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "blockinfile": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761260260,
+        "narHash": "sha256-pa5FBcIJzIFVZcR4m/v9PZZ+xyQBhHOUVe8A3lmBA8w=",
+        "owner": "dustinsand",
+        "repo": "blockinfile",
+        "rev": "5c3e2e7ee2c6d86ddafc8b004efad9c9915a3574",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dustinsand",
+        "ref": "v0.1.11",
+        "repo": "blockinfile",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -51,6 +68,7 @@
     },
     "root": {
       "inputs": {
+        "blockinfile": "blockinfile",
         "flake-parts": "flake-parts",
         "nixpkgs": "nixpkgs",
         "systems": "systems",
