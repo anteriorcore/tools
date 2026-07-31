@@ -1,6 +1,10 @@
 {
   inputs = {
     # keep-sorted start block=true
+    blockinfile = {
+      url = "github:dustinsand/blockinfile/v0.1.11";
+      flake = false;
+    };
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     systems.url = "systems";
@@ -23,14 +27,18 @@
         perSystem = { pkgs, lib, ... }: {
           packages =
             let
-              all = lib.packagesFromDirectoryRecursive {
-                inherit (pkgs) callPackage newScope;
+              scope = lib.makeScope pkgs.newScope (self: {
+                inherit inputs;
+              });
+              allPackages = lib.packagesFromDirectoryRecursive {
+                inherit (scope) callPackage newScope;
                 directory = ./packages;
               };
             in
             {
-              inherit (all)
+              inherit (allPackages)
                 # keep-sorted start
+                blockinfile
                 conventional-commit
                 nix-flake-check-changed
                 nix-grep-to-build
