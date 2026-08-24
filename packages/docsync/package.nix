@@ -3,6 +3,7 @@
   gnused,
   jq,
   lib,
+  npm-overrides,
   package-lock2nix,
   runCommand,
 }:
@@ -10,6 +11,7 @@
 package-lock2nix.mkNpmModule {
   src = ./.;
   doInstallCheck = true;
+  npmOverrides = npm-overrides;
   nativeBuildInputs = [
     diffutils
     jq
