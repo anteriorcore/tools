@@ -24,31 +24,37 @@
       allSystems = {
         flake.flakeModules = { inherit checkBuildAll; };
         flake.nixosModules = { inherit dynamodb elasticmq; };
-        perSystem = { pkgs, lib, ... }: {
-          packages =
-            let
-              scope = lib.makeScope pkgs.newScope (self: {
-                inherit inputs;
-              });
-              allPackages = lib.packagesFromDirectoryRecursive {
-                inherit (scope) callPackage newScope;
-                directory = ./packages;
+        perSystem =
+          { pkgs, lib, ... }:
+          let
+            inherit (pkgs) nodejs;
+          in
+          {
+            packages =
+              let
+                scope = lib.makeScope pkgs.newScope (self: {
+                  inherit inputs;
+                });
+                allPackages = lib.packagesFromDirectoryRecursive {
+                  inherit (scope) callPackage newScope;
+                  directory = ./packages;
+                };
+              in
+              {
+                inherit (allPackages)
+                  # keep-sorted start
+                  blockinfile
+                  conventional-commit
+                  nix-flake-check-changed
+                  nix-grep-to-build
+                  npm-list
+                  wait-for-port
+                  # keep-sorted end
+                  ;
               };
-            in
-            {
-              inherit (allPackages)
-                # keep-sorted start
-                blockinfile
-                conventional-commit
-                nix-flake-check-changed
-                nix-grep-to-build
-                npm-list
-                wait-for-port
-                # keep-sorted end
-                ;
-            };
-          treefmt = import ./nix/treefmt.nix;
-        };
+            devShells.default = pkgs.mkShell { packages = [ nodejs ]; };
+            treefmt = import ./nix/treefmt.nix;
+          };
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
