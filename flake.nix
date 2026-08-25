@@ -7,6 +7,12 @@
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    package-lock2nix = {
+      url = "github:anteriorcore/package-lock2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
     systems.url = "systems";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -24,31 +30,41 @@
       allSystems = {
         flake.flakeModules = { inherit checkBuildAll; };
         flake.nixosModules = { inherit dynamodb elasticmq; };
-        perSystem = { pkgs, lib, ... }: {
-          packages =
-            let
-              scope = lib.makeScope pkgs.newScope (self: {
-                inherit inputs;
-              });
-              allPackages = lib.packagesFromDirectoryRecursive {
-                inherit (scope) callPackage newScope;
-                directory = ./packages;
+        perSystem =
+          { pkgs, lib, ... }:
+          let
+            inherit (pkgs) nodejs;
+          in
+          {
+            packages =
+              let
+                package-lock2nix = pkgs.callPackage inputs.package-lock2nix.lib.package-lock2nix {
+                  inherit nodejs;
+                };
+                scope = lib.makeScope pkgs.newScope (self: {
+                  inherit inputs package-lock2nix;
+                });
+                allPackages = lib.packagesFromDirectoryRecursive {
+                  inherit (scope) callPackage newScope;
+                  directory = ./packages;
+                };
+              in
+              {
+                inherit (allPackages)
+                  # keep-sorted start
+                  blockinfile
+                  conventional-commit
+                  docsync
+                  nix-flake-check-changed
+                  nix-grep-to-build
+                  npm-list
+                  wait-for-port
+                  # keep-sorted end
+                  ;
               };
-            in
-            {
-              inherit (allPackages)
-                # keep-sorted start
-                blockinfile
-                conventional-commit
-                nix-flake-check-changed
-                nix-grep-to-build
-                npm-list
-                wait-for-port
-                # keep-sorted end
-                ;
-            };
-          treefmt = import ./nix/treefmt.nix;
-        };
+            devShells.default = pkgs.mkShell { packages = [ nodejs ]; };
+            treefmt = import ./nix/treefmt.nix;
+          };
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {

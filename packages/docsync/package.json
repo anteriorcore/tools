@@ -1,0 +1,32 @@
+{
+  "name": "docsync",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.ts",
+    "test": "tsc"
+  },
+  "bin": {
+    "docsync-check": "src/docsync-check.ts",
+    "docsync-get": "src/docsync-get.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "tree-sitter": "^0.22.4",
+    "tree-sitter-python": "^0.23.6",
+    "tree-sitter-typescript": "^0.23.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "tree-sitter-typescript": {
+      "tree-sitter": "^0.22.4"
+    }
+  }
+}
