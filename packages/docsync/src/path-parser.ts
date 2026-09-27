@@ -1,6 +1,7 @@
 import { glob, stat } from "node:fs/promises";
 import { extname } from "node:path";
 
+import { NixParser } from "./nix.ts";
 import { PythonParser } from "./python.ts";
 import { SentinelParser } from "./sentinel-parser.ts";
 import { TsParser } from "./typescript.ts";
@@ -12,6 +13,7 @@ export class PathParser {
 
   constructor() {
     this.parsers = {
+      ".nix": new NixParser(),
       ".py": new PythonParser(),
       ".ts": new TsParser(),
     };

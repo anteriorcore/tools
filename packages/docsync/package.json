@@ -16,8 +16,9 @@
   "author": "",
   "license": "AGPL-3.0-only",
   "dependencies": {
-    "tree-sitter": "^0.22.4",
-    "tree-sitter-python": "^0.23.6",
+    "tree-sitter": "^0.25.0",
+    "tree-sitter-nix": "github:anteriorcore/tree-sitter-nix#build/napi",
+    "tree-sitter-python": "^0.25.0",
     "tree-sitter-typescript": "^0.23.2"
   },
   "devDependencies": {
@@ -26,7 +27,7 @@
   },
   "overrides": {
     "tree-sitter-typescript": {
-      "tree-sitter": "^0.22.4"
+      "tree-sitter": "^0.25.0"
     }
   }
 }

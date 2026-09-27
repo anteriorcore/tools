@@ -3,9 +3,12 @@
   gnused,
   jq,
   lib,
+  nodejs,
   npm-overrides,
   package-lock2nix,
+  python3,
   runCommand,
+  writableTmpDirAsHomeHook,
 }:
 
 package-lock2nix.mkNpmModule {
@@ -15,9 +18,15 @@ package-lock2nix.mkNpmModule {
   nativeBuildInputs = [
     diffutils
     jq
+    # Required for building tree-sitter-nix
+    python3
+    writableTmpDirAsHomeHook
   ];
   postBuild = ''
-    npm explore tree-sitter -- npm run install
+    export npm_config_nodedir=${nodejs}
+
+    chmod -R u+w node_modules/tree-sitter-nix
+    npm explore tree-sitter-nix -- npm run install
   '';
   meta.license = lib.licenses.agpl3Only;
   installCheckPhase =
