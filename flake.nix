@@ -8,7 +8,8 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     package-lock2nix = {
-      url = "github:anteriorcore/package-lock2nix";
+      # NOMERGE
+      url = "github:anteriorcore/package-lock2nix/pull/57/merge";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
       inputs.treefmt-nix.follows = "treefmt-nix";
